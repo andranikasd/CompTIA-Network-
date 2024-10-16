@@ -1,0 +1,54 @@
+name: Publish to Medium
+
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install Medium CLI
+        run: |
+          npm install -g medium-publisher-cli
+
+      - name: Initialize .published file if not exists
+        run: |
+          if [ ! -f .published ]; then
+            touch .published
+          fi
+
+      - name: Publish Markdown Notes to Medium
+        env:
+          MEDIUM_TOKEN: ${{ secrets.MEDIUM_API_TOKEN }}
+        run: |
+          for file in ./*.md; do
+            # Check if the file was already published
+            if ! grep -Fxq "$file" .published; then
+              # Publish the file to Medium
+              medium-publish "$file" --token $MEDIUM_TOKEN --status public --license all-rights-reserved
+              
+              # Add the file to the .published list to avoid republishing
+              echo "$file" >> .published
+            else
+              echo "$file already published. Skipping."
+            fi
+          done
+
+      - name: Commit updated .published file
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .published
+          git commit -m "Update .published file"
+          git push
