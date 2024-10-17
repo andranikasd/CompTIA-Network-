@@ -1,6 +1,7 @@
 # CompTIA-Network
 
 Guide for preparations to CompTIA-Network + certification exam
+
 ## About the exam 
 You will have a maximum of 90 minutes to answer the 90 questions on the
 exam. The allotted time is quite generous, so when you finish, you probably
