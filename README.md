@@ -1,6 +1,9 @@
 # CompTIA-Network
 
 Guide for preparations to CompTIA-Network + certification exam
+## About this notes 
+This peace of sheet notes are taken exclusively for My usage, so if You don't like its format or spelling, shut the fuck up
+
 
 ## About the exam 
 You will have a maximum of 90 minutes to answer the 90 questions on the
